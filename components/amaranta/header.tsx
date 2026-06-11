@@ -9,7 +9,7 @@ import { Menu, X, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 export default function Header() {
-  const { isMobileMenuOpen, toggleMobileMenu, setMobileMenuOpen } = useUIStore()
+  const { isMobileMenuOpen, toggleMobileMenu, setMobileMenuOpen, setWhatsAppModalOpen } = useUIStore()
   const [scrolled, setScrolled] = React.useState(false)
 
   React.useEffect(() => {
@@ -24,7 +24,7 @@ export default function Header() {
     { label: "Home", href: "/" },
     { label: "Paquetes", href: "/#paquetes" },
     { label: "Excursiones", href: "/#excursiones" },
-    { label: "Blog", href: "/blog" },
+    { label: "Blog", href: "#" },
   ]
 
   return (
@@ -61,10 +61,10 @@ export default function Header() {
 
         {/* DESKTOP CTA */}
         <div className="hidden md:block">
-          <Button variant="secondary" size="sm" asChild>
-            <Link href="/contacto-vip" className="flex items-center gap-1">
+          <Button variant="secondary" size="sm" onClick={() => setWhatsAppModalOpen(true)}>
+            <span className="flex items-center gap-1">
               Cotización VIP <ArrowRight className="h-4 w-4" />
-            </Link>
+            </span>
           </Button>
         </div>
 
@@ -109,10 +109,8 @@ export default function Header() {
                     {link.label}
                   </Link>
                 ))}
-                <Button variant="secondary" size="lg" className="w-full mt-4" asChild>
-                  <Link href="/contacto-vip" onClick={() => setMobileMenuOpen(false)}>
-                    Cotización VIP
-                  </Link>
+                <Button variant="secondary" size="lg" className="w-full mt-4" onClick={() => { setMobileMenuOpen(false); setWhatsAppModalOpen(true); }}>
+                  Cotización VIP
                 </Button>
               </div>
             </motion.div>

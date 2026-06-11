@@ -27,9 +27,9 @@ export default function Footer() {
             <h4 className="font-bold text-sm uppercase tracking-wider mb-4 text-[#FBB343]">Explorar</h4>
             <ul className="space-y-2 text-xs text-slate-400">
               <li><Link href="/" className="hover:text-[#449CFC] transition-colors">Home</Link></li>
-              <li><Link href="/paquetes" className="hover:text-[#449CFC] transition-colors">Paquetes</Link></li>
+              <li><Link href="/#paquetes" className="hover:text-[#449CFC] transition-colors">Paquetes</Link></li>
               <li><Link href="/#excursiones" className="hover:text-[#449CFC] transition-colors">Excursiones</Link></li>
-              <li><Link href="/blog" className="hover:text-[#449CFC] transition-colors">Blog</Link></li>
+              <li><Link href="#" className="hover:text-[#449CFC] transition-colors">Blog</Link></li>
             </ul>
           </div>
 
@@ -37,9 +37,9 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-sm uppercase tracking-wider mb-4 text-[#FBB343]">Estilo de Viaje</h4>
             <ul className="space-y-2 text-xs text-slate-400">
-              <li><Link href="/tipo-viaje/pareja" className="hover:text-[#449CFC] transition-colors">En Pareja</Link></li>
-              <li><Link href="/tipo-viaje/familiar" className="hover:text-[#449CFC] transition-colors">En Familia</Link></li>
-              <li><Link href="/tipo-viaje/solo" className="hover:text-[#449CFC] transition-colors">Aventura / Solo</Link></li>
+              <li><Link href="/#paquetes" className="hover:text-[#449CFC] transition-colors">En Pareja</Link></li>
+              <li><Link href="/#paquetes" className="hover:text-[#449CFC] transition-colors">En Familia</Link></li>
+              <li><Link href="/#paquetes" className="hover:text-[#449CFC] transition-colors">Aventura / Solo</Link></li>
             </ul>
           </div>
 
