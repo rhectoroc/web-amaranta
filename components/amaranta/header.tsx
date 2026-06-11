@@ -1,0 +1,124 @@
+"use client"
+
+import * as React from "react"
+import Link from "next/link"
+import Image from "next/image"
+import { useUIStore } from "@/store/use-ui-store"
+import { AnimatePresence, motion } from "framer-motion"
+import { Menu, X, ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+
+export default function Header() {
+  const { isMobileMenuOpen, toggleMobileMenu, setMobileMenuOpen } = useUIStore()
+  const [scrolled, setScrolled] = React.useState(false)
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  const navLinks = [
+    { label: "Home", href: "/" },
+    { label: "Paquetes", href: "/#paquetes" },
+    { label: "Excursiones", href: "/#excursiones" },
+    { label: "Blog", href: "/blog" },
+  ]
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled ? "bg-[#044C9C]/95 backdrop-blur-md shadow-lg border-b border-[#3C9CFC]/20 py-2" : "bg-transparent py-4"
+      }`}
+    >
+      <div className="container mx-auto flex items-center justify-between px-4">
+        {/* LOGO */}
+        <Link href="/" className="relative h-20 w-56 md:h-24 md:w-72 block shrink-0">
+          <Image
+            src="/LogoAmaranta.png"
+            alt="AMARANTA Logo"
+            fill
+            priority
+            sizes="(max-width: 768px) 224px, 288px"
+            className="object-contain"
+          />
+        </Link>
+
+        {/* DESKTOP MENU */}
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-white/90 hover:text-[#449CFC] transition-colors font-medium text-sm"
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+
+        {/* DESKTOP CTA */}
+        <div className="hidden md:block">
+          <Button variant="secondary" size="sm" asChild>
+            <Link href="/contacto-vip" className="flex items-center gap-1">
+              Cotización VIP <ArrowRight className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+
+        {/* HAMBURGER TRIGGER */}
+        <button
+          onClick={toggleMobileMenu}
+          className="md:hidden text-white p-2 focus:outline-none"
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+        </button>
+      </div>
+
+      {/* MOBILE NAV PANEL (Framer Motion Drawer) */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 top-[60px] bg-black/60 backdrop-blur-sm z-40 md:hidden"
+            />
+            {/* Drawer */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+              className="fixed top-[60px] right-0 bottom-0 w-4/5 max-w-sm bg-[#044C9C] border-l border-[#3C9CFC]/30 z-50 md:hidden flex flex-col p-6 shadow-2xl"
+            >
+              <div className="flex flex-col gap-6 mt-4">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-white text-lg font-semibold hover:text-[#449CFC] border-b border-white/10 pb-3 transition-colors"
+                  >
+                    {link.label}
+                  </Link>
+                ))}
+                <Button variant="secondary" size="lg" className="w-full mt-4" asChild>
+                  <Link href="/contacto-vip" onClick={() => setMobileMenuOpen(false)}>
+                    Cotización VIP
+                  </Link>
+                </Button>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+    </header>
+  )
+}

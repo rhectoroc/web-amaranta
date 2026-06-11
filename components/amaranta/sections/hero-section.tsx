@@ -1,0 +1,84 @@
+"use client"
+
+import * as React from "react"
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { useUIStore } from "@/store/use-ui-store"
+import ExpressQuoteForm from "@/components/amaranta/express-quote-form"
+
+export default function HeroSection() {
+  const { setWhatsAppModalOpen } = useUIStore()
+
+  return (
+    <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-12 overflow-hidden bg-slate-950">
+
+      {/* ── VIDEO DE FONDO ── */}
+      <video
+        className="absolute inset-0 w-full h-full object-cover z-0"
+        src="/Hero Amaranta.mp4"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+      />
+
+      {/* ── OVERLAY: oscurece el video para legibilidad del texto ── */}
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-slate-950/60 via-slate-950/50 to-slate-950/80" />
+
+      {/* ── DESTELLOS DECORATIVOS (encima del overlay, debajo del contenido) ── */}
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#449CFC]/10 rounded-full blur-3xl z-[2]" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#FBB343]/5 rounded-full blur-3xl z-[2]" />
+
+      {/* ── CONTENIDO ── */}
+      <div className="container mx-auto px-4 z-10 relative">
+        <div className="flex flex-col gap-10">
+
+          {/* COPYWRITING WRAPPER */}
+          <div className="text-center space-y-6 max-w-4xl mx-auto">
+            {/* Main Title — uppercase, thin & elegant */}
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight tracking-[0.12em] uppercase">
+              Experiencias Premium en el Caribe
+            </h1>
+
+            {/* Subtitle */}
+            <p className="text-xs md:text-sm text-slate-300 font-light tracking-widest uppercase leading-relaxed">
+              Planifiquemos hoy tu escape VIP en Venezuela y el Caribe
+            </p>
+
+            {/* CTA Group */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
+              <Button
+                variant="secondary"
+                size="lg"
+                onClick={() => setWhatsAppModalOpen(true)}
+                className="w-full sm:w-auto h-13 px-8 font-black text-base flex justify-center items-center gap-2"
+              >
+                Planificar en WhatsApp <ArrowRight className="h-5 w-5" />
+              </Button>
+              <Button
+                variant="outline"
+                size="lg"
+                asChild
+                className="w-full sm:w-auto h-13 px-8 border-white/20 hover:bg-white/10 text-white"
+              >
+                <Link href="#excursiones">
+                  Ver Excursiones
+                </Link>
+              </Button>
+            </div>
+
+
+          </div>
+
+          {/* FORM WRAPPER */}
+          <div className="w-full">
+            <ExpressQuoteForm />
+          </div>
+
+        </div>
+      </div>
+    </section>
+  )
+}
