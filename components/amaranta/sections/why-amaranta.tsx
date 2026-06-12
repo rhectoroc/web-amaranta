@@ -1,6 +1,18 @@
+"use client"
+
+import * as React from "react"
 import { Anchor, ShieldAlert, Award, Star } from "lucide-react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function WhyAmaranta() {
+  const containerRef = React.useRef<HTMLElement>(null)
+
   const valueProps = [
     {
       icon: <Anchor className="h-6 w-6 text-[#044C9C]" />,
@@ -24,14 +36,39 @@ export default function WhyAmaranta() {
     }
   ]
 
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      }
+    });
+
+    tl.from(".why-header", {
+      opacity: 0,
+      x: -40,
+      duration: 0.8,
+      ease: "power2.out",
+    })
+    .from(".why-card", {
+      opacity: 0,
+      y: 35,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: "power2.out",
+    }, "-=0.5");
+  }, { scope: containerRef });
+
   return (
     <section
+      ref={containerRef}
       className="py-16 bg-[#F5F5F3] border-t border-slate-200/50"
     >
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Header Copy */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="why-header lg:col-span-5 space-y-6">
             <span className="text-[#044C9C] text-xs font-black uppercase tracking-widest bg-[#449CFC]/10 px-3 py-1 rounded-full">
               Diferencia Amaranta
             </span>
@@ -48,7 +85,7 @@ export default function WhyAmaranta() {
             {valueProps.map((prop, idx) => (
               <div
                 key={idx}
-                className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm space-y-3"
+                className="why-card bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm space-y-3"
               >
                 <div className="p-3 bg-[#449CFC]/10 rounded-xl w-fit">
                   {prop.icon}

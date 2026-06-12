@@ -6,12 +6,45 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useUIStore } from "@/store/use-ui-store"
 import ExpressQuoteForm from "@/components/amaranta/express-quote-form"
+import gsap from "gsap"
+import { useGSAP } from "@gsap/react"
 
 export default function HeroSection() {
   const { setWhatsAppModalOpen } = useUIStore()
+  const containerRef = React.useRef<HTMLElement>(null)
+
+  useGSAP(() => {
+    const tl = gsap.timeline();
+
+    tl.from(".hero-title", {
+      y: 40,
+      opacity: 0,
+      duration: 1,
+      ease: "power3.out",
+    })
+    .from(".hero-subtitle", {
+      y: 20,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+    }, "-=0.6")
+    .from(".hero-cta", {
+      y: 20,
+      opacity: 0,
+      duration: 0.6,
+      stagger: 0.15,
+      ease: "power2.out",
+    }, "-=0.4")
+    .from(".hero-form", {
+      y: 35,
+      opacity: 0,
+      duration: 0.8,
+      ease: "power2.out",
+    }, "-=0.3");
+  }, { scope: containerRef });
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-12 overflow-hidden bg-slate-950">
+    <section ref={containerRef} className="relative min-h-[90vh] flex items-center justify-center pt-24 pb-12 overflow-hidden bg-slate-950">
 
       {/* ── VIDEO DE FONDO ── */}
       <video
@@ -39,12 +72,12 @@ export default function HeroSection() {
           {/* COPYWRITING WRAPPER */}
           <div className="text-center space-y-6 max-w-4xl mx-auto">
             {/* Main Title — uppercase, thin & elegant */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight tracking-[0.12em] uppercase">
+            <h1 className="hero-title text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight tracking-[0.12em] uppercase">
               Experiencias Premium en el Caribe
             </h1>
 
             {/* Subtitle */}
-            <p className="text-xs md:text-sm text-slate-300 font-light tracking-widest uppercase leading-relaxed">
+            <p className="hero-subtitle text-xs md:text-sm text-slate-300 font-light tracking-widest uppercase leading-relaxed">
               Planifiquemos hoy tu escape VIP en Venezuela y el Caribe
             </p>
 
@@ -54,7 +87,7 @@ export default function HeroSection() {
                 variant="secondary"
                 size="lg"
                 onClick={() => setWhatsAppModalOpen(true)}
-                className="w-full sm:w-auto h-13 px-8 font-black text-base flex justify-center items-center gap-2"
+                className="hero-cta w-full sm:w-auto h-13 px-8 font-black text-base flex justify-center items-center gap-2"
               >
                 Planificar en WhatsApp <ArrowRight className="h-5 w-5" />
               </Button>
@@ -62,7 +95,7 @@ export default function HeroSection() {
                 variant="outline"
                 size="lg"
                 asChild
-                className="w-full sm:w-auto h-13 px-8 border-white/20 hover:bg-white/10 text-white"
+                className="hero-cta w-full sm:w-auto h-13 px-8 border-white/20 hover:bg-white/10 text-white"
               >
                 <Link href="#excursiones">
                   Ver Excursiones
@@ -74,7 +107,7 @@ export default function HeroSection() {
           </div>
 
           {/* FORM WRAPPER */}
-          <div className="w-full">
+          <div className="hero-form w-full">
             <ExpressQuoteForm />
           </div>
 

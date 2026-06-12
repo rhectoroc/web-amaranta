@@ -10,6 +10,13 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const TESTIMONIOS_MOCK: Testimonio[] = [
   {
@@ -42,13 +49,39 @@ const TESTIMONIOS_MOCK: Testimonio[] = [
 ]
 
 export default function TestimonialsSection() {
+  const containerRef = React.useRef<HTMLElement>(null)
+
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      }
+    });
+
+    tl.from(".testimonials-header", {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: "power2.out",
+    })
+    .from(".testimonials-content", {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      ease: "power2.out",
+    }, "-=0.4");
+  }, { scope: containerRef });
+
   return (
     <section
+      ref={containerRef}
       className="py-16 bg-[#F5F5F3]"
     >
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="testimonials-header text-center max-w-2xl mx-auto mb-12">
           <span className="text-[#044C9C] text-xs font-black uppercase tracking-widest bg-[#449CFC]/10 px-3 py-1 rounded-full">
             Testimonios
           </span>
@@ -61,7 +94,7 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Carousel Wrapper */}
-        <div className="max-w-4xl mx-auto px-4 md:px-12 relative">
+        <div className="testimonials-content max-w-4xl mx-auto px-4 md:px-12 relative">
           <Carousel opts={{ align: "start", loop: true }} className="w-full">
             <CarouselContent>
               {TESTIMONIOS_MOCK.map((t) => (

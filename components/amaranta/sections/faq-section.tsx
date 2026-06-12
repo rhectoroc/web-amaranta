@@ -6,8 +6,18 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import * as React from "react"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function FAQSection() {
+  const containerRef = React.useRef<HTMLElement>(null)
+
   const faqs = [
     {
       q: "¿Cuáles son los métodos de pago aceptados?",
@@ -27,11 +37,34 @@ export default function FAQSection() {
     }
   ]
 
+  useGSAP(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      }
+    });
+
+    tl.from(".faq-header", {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: "power2.out",
+    })
+    .from(".faq-accordion", {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      ease: "power2.out",
+    }, "-=0.4");
+  }, { scope: containerRef });
+
   return (
-    <section className="py-16 bg-[#F5F5F3] border-t border-slate-200/50">
+    <section ref={containerRef} className="py-16 bg-[#F5F5F3] border-t border-slate-200/50">
       <div className="container mx-auto px-4 max-w-3xl">
         {/* Header */}
-        <div className="text-center mb-10">
+        <div className="faq-header text-center mb-10">
           <span className="text-[#044C9C] text-xs font-black uppercase tracking-widest bg-[#449CFC]/10 px-3 py-1 rounded-full">
             Preguntas Frecuentes
           </span>
@@ -41,7 +74,7 @@ export default function FAQSection() {
         </div>
 
         {/* Accordion List */}
-        <Accordion type="single" collapsible className="w-full bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
+        <Accordion type="single" collapsible className="faq-accordion w-full bg-white rounded-2xl border border-slate-200 p-6 md:p-8 shadow-sm">
           {faqs.map((faq, idx) => (
             <AccordionItem key={idx} value={`faq-${idx}`} className="border-b border-slate-100 last:border-0">
               <AccordionTrigger className="text-left font-bold text-sm text-[#044C9C] hover:text-[#115092] py-4">

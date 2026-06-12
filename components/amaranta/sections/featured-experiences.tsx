@@ -6,6 +6,13 @@ import { useUIStore } from "@/store/use-ui-store"
 import { type Excursion } from "@/types"
 import { Calendar, Clock, Sparkles } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useGSAP } from "@gsap/react"
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const EXCURSIONES_MOCK: Excursion[] = [
   {
@@ -52,20 +59,51 @@ const EXCURSIONES_MOCK: Excursion[] = [
 
 export default function FeaturedExperiences() {
   const { selectedTravelType, setWhatsAppModalOpen } = useUIStore()
+  const containerRef = React.useRef<HTMLElement>(null)
 
   const filteredExcursiones = React.useMemo(() => {
     if (!selectedTravelType) return EXCURSIONES_MOCK
     return EXCURSIONES_MOCK.filter((exc) => exc.tipoViaje === selectedTravelType)
   }, [selectedTravelType])
 
+  useGSAP(() => {
+    // Kill existing ScrollTriggers on this section to prevent overlap on hot reload or filter change
+    ScrollTrigger.getAll().forEach(t => {
+      if (t.trigger === containerRef.current) t.kill();
+    });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: containerRef.current,
+        start: "top 85%",
+        toggleActions: "play none none none",
+      }
+    });
+
+    tl.from(".excursions-header", {
+      opacity: 0,
+      y: 40,
+      duration: 0.8,
+      ease: "power2.out",
+    })
+    .from(".excursion-card", {
+      opacity: 0,
+      y: 40,
+      duration: 0.7,
+      stagger: 0.12,
+      ease: "power2.out",
+    }, "-=0.4");
+  }, { dependencies: [selectedTravelType], scope: containerRef });
+
   return (
     <section
+      ref={containerRef}
       id="excursiones"
       className="py-16 bg-[#F5F5F3] scroll-mt-28"
     >
       <div className="container mx-auto px-4">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="excursions-header text-center max-w-2xl mx-auto mb-12">
           <span className="text-[#044C9C] text-xs font-black uppercase tracking-widest bg-[#449CFC]/10 px-3 py-1 rounded-full">
             Nuestras Experiencias
           </span>
@@ -82,7 +120,7 @@ export default function FeaturedExperiences() {
           {filteredExcursiones.map((excursion) => (
             <div
               key={excursion.id}
-              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-slate-200/60 transition-all duration-300 flex flex-col group"
+              className="excursion-card bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-slate-200/60 transition-all duration-300 flex flex-col group"
             >
               {/* Image Container */}
               <div className="relative h-48 w-full overflow-hidden shrink-0">
