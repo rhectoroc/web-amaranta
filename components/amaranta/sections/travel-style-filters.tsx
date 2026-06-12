@@ -18,7 +18,7 @@ export default function TravelStyleFilters() {
   return (
     <section
       id="paquetes"
-      className="bg-[#F5F5F3] border-b border-slate-200"
+      className="bg-[#F5F5F3] border-b border-slate-200 scroll-mt-28"
     >
       <div className="container mx-auto flex flex-col items-center gap-10 py-20 px-4">
 

@@ -61,7 +61,7 @@ export default function FeaturedExperiences() {
   return (
     <section
       id="excursiones"
-      className="py-16 bg-[#F5F5F3]"
+      className="py-16 bg-[#F5F5F3] scroll-mt-28"
     >
       <div className="container mx-auto px-4">
         {/* Header */}
