@@ -22,6 +22,7 @@ export default function HeroSection() {
         muted
         playsInline
         preload="auto"
+        poster="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=1200&auto=format&fit=crop"
       />
 
       {/* ── OVERLAY: oscurece el video para legibilidad del texto ── */}

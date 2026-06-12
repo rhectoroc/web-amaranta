@@ -66,7 +66,7 @@ export default function WhatsAppButton() {
 
       {/* Segmented Dialog Modal */}
       <Dialog open={isWhatsAppModalOpen} onOpenChange={setWhatsAppModalOpen}>
-        <DialogContent className="max-w-md w-[95%] p-5 md:p-6 bg-slate-900 border border-slate-800 text-white rounded-2xl">
+        <DialogContent className="max-w-md w-[95%] max-h-[85vh] overflow-y-auto p-5 md:p-6 bg-slate-900 border border-slate-800 text-white rounded-2xl">
           <DialogHeader className="mb-4">
             <DialogTitle className="text-xl font-bold text-[#FBB343]">¿Cómo podemos ayudarte hoy?</DialogTitle>
             <DialogDescription className="text-slate-400 text-xs">

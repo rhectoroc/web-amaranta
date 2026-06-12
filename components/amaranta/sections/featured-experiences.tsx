@@ -78,14 +78,14 @@ export default function FeaturedExperiences() {
         </div>
 
         {/* Excursions Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredExcursiones.map((excursion) => (
             <div
               key={excursion.id}
-              className="relative min-h-[480px] bg-white rounded-none overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group"
+              className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md border border-slate-200/60 transition-all duration-300 flex flex-col group"
             >
-              {/* Background Image Container */}
-              <div className="absolute inset-0 z-0">
+              {/* Image Container */}
+              <div className="relative h-48 w-full overflow-hidden shrink-0">
                 <Image
                   src={excursion.imagenUrl}
                   alt={excursion.titulo}
@@ -93,56 +93,52 @@ export default function FeaturedExperiences() {
                   sizes="(max-width: 768px) 100vw, 25vw"
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
+                {/* Top Badge */}
+                <div className="absolute top-4 left-4 z-10 bg-[#044C9C] text-white text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+                  {excursion.tipoViaje}
+                </div>
               </div>
 
-              {/* Top Badge */}
-              <div className="absolute top-4 left-4 z-10 bg-[#044C9C] text-white text-[11px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
-                {excursion.tipoViaje}
-              </div>
-
-              {/* Spacer para que el texto inicie siempre a la misma altura */}
-              <div className="h-[220px] z-10 shrink-0" />
-
-              {/* Card Body with 80% Transparency (20% color) */}
-              <div className="z-10 bg-white/20 backdrop-blur-sm p-6 flex flex-col flex-1 border-t border-white/30">
-                <div className="flex justify-between items-start gap-2 mb-2">
-                  <h3 className="font-black text-base md:text-lg text-slate-950 leading-snug drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">
+              {/* Card Body */}
+              <div className="p-5 flex flex-col flex-grow justify-between bg-white space-y-4">
+                <div>
+                  <h3 className="font-black text-base md:text-lg text-slate-900 leading-snug mb-2">
                     {excursion.titulo}
                   </h3>
-                </div>
 
-                {/* Duration & Availability */}
-                <div className="flex gap-4 text-xs text-slate-900 font-extrabold mb-4 border-b border-slate-900/20 pb-3">
-                  <span className="flex items-center gap-1 drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]">
-                    <Clock className="h-3.5 w-3.5 text-[#044C9C]" /> {excursion.duracion}
-                  </span>
-                  <span className="flex items-center gap-1 drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]">
-                    <Calendar className="h-3.5 w-3.5 text-[#044C9C]" /> Diarios
-                  </span>
-                </div>
+                  {/* Duration & Availability */}
+                  <div className="flex gap-4 text-xs text-slate-600 font-bold border-b border-slate-100 pb-3 mb-3">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-3.5 w-3.5 text-[#044C9C]" /> {excursion.duracion}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Calendar className="h-3.5 w-3.5 text-[#044C9C]" /> Diarios
+                    </span>
+                  </div>
 
-                {/* Benefit List */}
-                <ul className="space-y-2 mb-6 flex-1">
-                  {excursion.beneficios.map((benefit, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-xs text-slate-950 font-bold drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]">
-                      <Sparkles className="h-3 w-3 text-[#044C9C] shrink-0" />
-                      <span>{benefit}</span>
-                    </li>
-                  ))}
-                </ul>
+                  {/* Benefit List */}
+                  <ul className="space-y-2">
+                    {excursion.beneficios.map((benefit, idx) => (
+                      <li key={idx} className="flex items-center gap-2 text-xs text-slate-700 font-medium">
+                        <Sparkles className="h-3 w-3 text-[#044C9C] shrink-0" />
+                        <span>{benefit}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
 
                 {/* Footer Pricing & CTA */}
-                <div className="flex items-center justify-between pt-4 border-t border-slate-900/20">
+                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
                   <div>
-                    <span className="text-[10px] uppercase text-slate-900 block font-black drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]">Desde</span>
-                    <span className="text-xl font-black text-[#044C9C] drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]">${excursion.precioDesde}</span>
-                    <span className="text-[10px] text-slate-900 font-bold drop-shadow-[0_0_6px_rgba(255,255,255,0.9)]"> / p.p.</span>
+                    <span className="text-[10px] uppercase text-slate-500 block font-bold">Desde</span>
+                    <span className="text-xl font-black text-[#044C9C]">${excursion.precioDesde}</span>
+                    <span className="text-[10px] text-slate-500 font-bold"> / p.p.</span>
                   </div>
                   <Button
                     variant="primary"
                     size="sm"
                     onClick={() => setWhatsAppModalOpen(true)}
-                    className="font-bold text-xs rounded-full bg-[#044C9C] text-white hover:bg-[#033a78] shadow-md"
+                    className="font-bold text-xs rounded-full bg-[#044C9C] text-white hover:bg-[#033a78] shadow-md px-4 h-9"
                   >
                     Cotizar VIP
                   </Button>

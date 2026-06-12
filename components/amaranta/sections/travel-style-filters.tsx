@@ -47,7 +47,7 @@ export default function TravelStyleFilters() {
               <button
                 key={String(cat.id)}
                 onClick={() => setSelectedTravelType(cat.id)}
-                className={`flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-bold transition-all shrink-0 snap-start active:scale-95 border shadow-sm ${
+                className={`flex items-center gap-2 px-4 py-3 md:py-2.5 rounded-full text-xs font-bold transition-all shrink-0 snap-start active:scale-95 border shadow-sm ${
                   isActive
                     ? "bg-[#044C9C] text-white border-[#044C9C] shadow-blue-900/20"
                     : "bg-white text-slate-800 border-slate-300 hover:border-[#044C9C] hover:text-[#044C9C]"

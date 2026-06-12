@@ -71,7 +71,7 @@ export default function Header() {
         {/* HAMBURGER TRIGGER */}
         <button
           onClick={toggleMobileMenu}
-          className="md:hidden text-white p-2 focus:outline-none"
+          className="md:hidden text-white p-3 focus:outline-none"
           aria-label="Toggle menu"
         >
           {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -88,7 +88,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 top-[60px] bg-black/60 backdrop-blur-sm z-40 md:hidden"
+              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 md:hidden"
             />
             {/* Drawer */}
             <motion.div
@@ -96,9 +96,21 @@ export default function Header() {
               animate={{ x: 0 }}
               exit={{ x: "100%" }}
               transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-              className="fixed top-[60px] right-0 bottom-0 w-4/5 max-w-sm bg-[#044C9C] border-l border-[#3C9CFC]/30 z-50 md:hidden flex flex-col p-6 shadow-2xl"
+              className="fixed inset-y-0 right-0 w-4/5 max-w-sm bg-[#044C9C] border-l border-[#3C9CFC]/30 z-50 md:hidden flex flex-col p-6 shadow-2xl"
             >
-              <div className="flex flex-col gap-6 mt-4">
+              {/* Drawer Header with Close Button */}
+              <div className="flex justify-between items-center pb-4 border-b border-white/10">
+                <span className="text-white font-bold text-lg">Menú</span>
+                <button
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-white p-2 focus:outline-none"
+                  aria-label="Close menu"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="flex flex-col gap-6 mt-6">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
