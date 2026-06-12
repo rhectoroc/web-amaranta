@@ -66,33 +66,45 @@ export default function FeaturedExperiences() {
     return EXCURSIONES_MOCK.filter((exc) => exc.tipoViaje === selectedTravelType)
   }, [selectedTravelType])
 
+  const hasScrolledIntoView = React.useRef(false)
+
   useGSAP(() => {
-    // Kill existing ScrollTriggers on this section to prevent overlap on hot reload or filter change
-    ScrollTrigger.getAll().forEach(t => {
-      if (t.trigger === containerRef.current) t.kill();
-    });
+    if (!hasScrolledIntoView.current) {
+      // First time entering viewport: animate header and cards with scroll trigger
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: containerRef.current,
+          start: "top 85%",
+          onEnter: () => {
+            hasScrolledIntoView.current = true;
+          },
+          toggleActions: "play none none none",
+        }
+      });
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top 85%",
-        toggleActions: "play none none none",
-      }
-    });
-
-    tl.from(".excursions-header", {
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-      ease: "power2.out",
-    })
-    .from(".excursion-card", {
-      opacity: 0,
-      y: 40,
-      duration: 0.7,
-      stagger: 0.12,
-      ease: "power2.out",
-    }, "-=0.4");
+      tl.from(".excursions-header", {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        ease: "power2.out",
+      })
+      .from(".excursion-card", {
+        opacity: 0,
+        y: 40,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: "power2.out",
+      }, "-=0.4");
+    } else {
+      // Already scrolled into view, filter changed: animate cards immediately
+      gsap.from(".excursion-card", {
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        stagger: 0.1,
+        ease: "power2.out",
+      });
+    }
   }, { dependencies: [selectedTravelType], scope: containerRef });
 
   return (

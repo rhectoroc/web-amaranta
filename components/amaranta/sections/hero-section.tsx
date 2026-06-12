@@ -17,30 +17,32 @@ export default function HeroSection() {
     const tl = gsap.timeline();
 
     tl.from(".hero-title", {
-      y: 40,
+      y: 50,
+      rotateX: -20,
       opacity: 0,
-      duration: 1,
-      ease: "power3.out",
+      transformOrigin: "50% 0%",
+      duration: 1.2,
+      ease: "power4.out",
     })
     .from(".hero-subtitle", {
       y: 20,
       opacity: 0,
       duration: 0.8,
       ease: "power2.out",
-    }, "-=0.6")
+    }, "-=0.8")
     .from(".hero-cta", {
       y: 20,
       opacity: 0,
       duration: 0.6,
       stagger: 0.15,
       ease: "power2.out",
-    }, "-=0.4")
+    }, "-=0.5")
     .from(".hero-form", {
       y: 35,
       opacity: 0,
       duration: 0.8,
       ease: "power2.out",
-    }, "-=0.3");
+    }, "-=0.4");
   }, { scope: containerRef });
 
   return (
@@ -70,9 +72,9 @@ export default function HeroSection() {
         <div className="flex flex-col gap-10">
 
           {/* COPYWRITING WRAPPER */}
-          <div className="text-center space-y-6 max-w-4xl mx-auto">
+          <div className="text-center space-y-6 max-w-4xl mx-auto" style={{ perspective: "1000px" }}>
             {/* Main Title — uppercase, thin & elegant */}
-            <h1 className="hero-title text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight tracking-[0.12em] uppercase">
+            <h1 className="hero-title text-3xl md:text-4xl lg:text-5xl font-light text-white leading-tight tracking-[0.12em] uppercase" style={{ backfaceVisibility: "hidden" }}>
               Experiencias Premium en el Caribe
             </h1>
 
